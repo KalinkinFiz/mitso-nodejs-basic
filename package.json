@@ -24,16 +24,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KalinkinFiz/mitso-nodejs-basic"
+    "url": "git+https://github.com/Forceres/mitso-nodejs-basic"
   },
   "keywords": [
     "nodejs",
     "mitso"
   ],
-  "author": "KalinkinFiz",
+  "author": "Ilya",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KalinkinFiz/mitso-nodejs-basic/issues"
+    "url": "https://github.com/Forceres/mitso-nodejs-basic/issues"
   },
-  "homepage": "https://github.com/KalinkinFiz/mitso-nodejs-basic#readme"
+  "homepage": "https://github.com/Forceres/mitso-nodejs-basic#readme"
 }

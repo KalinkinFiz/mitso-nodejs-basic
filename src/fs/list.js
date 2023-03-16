@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as process from "process";
 
 const list = async () => {
   let tempPath = path.join(process.cwd(), "src", "fs", "files");
