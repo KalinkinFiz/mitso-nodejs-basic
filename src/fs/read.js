@@ -1,5 +1,25 @@
+import fs from 'fs/promises'
+import path from 'path';
+import url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 const read = async () => {
-    // Write your code here 
+    try{
+        const files = await fs.readdir(path.join(__dirname, 'files'));
+
+        if (files.includes("fileToRead.txt")) {
+
+            console.log(await fs.readFile(path.join(__dirname, 'files', "fileToRead.txt"), 'utf-8', {
+                flag: "wx"
+            }));
+        }
+        else
+            throw new Error("Файл не существует")
+
+    }catch (err) {
+        console.log(err.message);
+    }
 };
 
 await read();
