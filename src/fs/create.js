@@ -18,6 +18,6 @@ const create = async () => {
     } catch (err) {
         console.log(err.message);
     }
-};
+}
 
 await create();

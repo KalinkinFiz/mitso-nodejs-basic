@@ -1,21 +1,24 @@
+import http from 'http';
 import { sep } from 'path';
 import { release, version } from 'os';
-import http from 'http';
-import './files/c.js';
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+
+import './files/c.js';
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+
 const random = Math.random();
 
 import unknownObject1 from "./files/a.json" assert { type: "json" };
 import unknownObject2 from "./files/b.json" assert { type: "json" };
- if (random > 0.5) {
-  console.log(unknownObject1);
+if (random > 0.5) {
+    console.log(unknownObject1);
 }
- else {
+else {
     console.log(unknownObject2);
-    }
+}
 
 console.log(`Release ${release()}`);
 console.log(`Version ${version()}`);
