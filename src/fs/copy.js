@@ -1,44 +1,16 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as process from "process";
+import fsPromise from "fs/promises";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const copy = async () => {
-  let tempPath = path.join(process.cwd(), "src", "fs");
-  fs.stat(path.join(tempPath, "files_copy"), (err) => {
-    if (!err) {
-      throw new Error("FS operation failed");
-    }
-  });
-  fs.stat(path.join(tempPath, "files"), (err) => {
-    if (err) {
-      throw new Error("FS operation failed");
-    }
-  });
-  fs.mkdir(path.join(tempPath, "files_copy"), (err) => {
-    if (err) {
-      throw new Error("It already exists");
-    }
-  });
-  fs.readdir(path.join(tempPath, "files"), (err, items) => {
-    for (let i = 0; i < items.length; i++) {
-      fs.stat(path.join(tempPath, "files", items[i]), (err, status) => {
-        if (err) {
-          throw new Error("Something is wrong");
-        }
-        if (status.isFile()) {
-          fs.copyFile(
-            path.join(tempPath, "files", items[i]),
-            path.join(tempPath, "files_copy", items[i]),
-            (err) => {
-              if (err) {
-                throw new Error("Something is wrong");
-              }
-            }
-          );
-        }
-      });
-    }
-  });
+  const dirContent = await fsPromise.readdir(__dirname);
+  if (!dirContent.includes("files") || dirContent.includes("files_copy")){
+    throw new Error("FS operation failed");
+  }
+  await fsPromise.mkdir(join(__dirname, "files_copy"));
+  await fsPromise.cp(join(__dirname, "files"), join(__dirname, "files_copy"), { recursive: true });
 };
 
 await copy();
