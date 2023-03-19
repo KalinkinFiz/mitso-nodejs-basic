@@ -1,13 +1,14 @@
-import * as crypto from "crypto";
-import * as path from "path";
-import * as process from "process";
-import * as fs from "fs";
+import { createHash } from "crypto";
+import { createReadStream } from "fs";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const calculateHash = async () => {
-  let tempPath = path.join(process.cwd(), "src", "hash", "files");
-  const hash = crypto.createHash("SHA256");
-  const readable = fs.createReadStream(
-    path.join(tempPath, "fileToCalculateHashFor.txt")
+  const hash = createHash("SHA256");
+  const readable = createReadStream(
+    join(__dirname, "files", "fileToCalculateHashFor.txt")
   );
   readable.on("readable", () => {
     const data = readable.read();
