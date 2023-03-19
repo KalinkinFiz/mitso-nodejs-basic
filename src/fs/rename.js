@@ -1,20 +1,16 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as process from "process";
+import fsPromise from "fs/promises";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const rename = async () => {
-  let tempPath = path.join(process.cwd(), "src", "fs", "files");
-  if (fs.existsSync(path.join(tempPath, "properFilename.md"))) {
+  const dirContent = await fsPromise.readdir(join(__dirname, "files"));
+  if (dirContent.includes("properFilename.md"))
     throw new Error("FS operation failed");
-  }
-  fs.rename(
-    path.join(tempPath, "wrongFilename.txt"),
-    path.join(tempPath, "properFilename.md"),
-    (err) => {
-      if (err) {
-        throw new Error("Something is wrong");
-      }
-    }
+  fsPromise.rename(
+    join(__dirname, "files", "wrongFilename.txt"),
+    join(__dirname, "files", "properFilename.md")
   );
 };
 
