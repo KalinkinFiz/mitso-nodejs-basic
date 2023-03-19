@@ -1,17 +1,13 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as process from "process";
+import { readdir, unlink } from "fs/promises";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const remove = async () => {
-  let tempPath = path.join(process.cwd(), "src", "fs", "files");
-  if (!fs.existsSync(path.join(tempPath, "fileToRemove.txt"))) {
-    throw new Error("FS operation failed");
-  }
-  fs.unlink(path.join(tempPath, "fileToRemove.txt"), (err) => {
-    if (err) {
-      throw new Error("Something is wrong");
-    }
-  });
-};
+  const dirContent = await readdir(join(__dirname, "files"));
+  if (!dirContent.includes("fileToRemove.txt")) throw new Error("FS operation failed");
+  await unlink(join(__dirname, "files", "fileToRemove.txt"));
+}
 
 await remove();
