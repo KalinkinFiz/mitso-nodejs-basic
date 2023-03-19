@@ -1,18 +1,14 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as process from "process";
+import { readdir, readFile } from "fs/promises";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const read = async () => {
-  let tempPath = path.join(process.cwd(), "src", "fs", "files");
-  if (!fs.existsSync(path.join(tempPath, "fileToRead.txt"))) {
-    throw new Error("FS operation failed");
-  }
-  fs.readFile(path.join(tempPath, "fileToRead.txt"), "utf-8", (err, data) => {
-    if (err) {
-      throw new Error("Something is wrong");
-    }
-    console.log(data);
-  });
+  const dirContent = await readdir(join(__dirname, "files"));
+  if (!dirContent.includes("fileToRead.txt")) throw new Error("FS operation failed");
+  const fileContent = await readFile(join(__dirname, "files", "fileToRead.txt"), "utf-8");
+  console.log(fileContent);
 };
 
 await read();
