@@ -1,16 +1,16 @@
-import * as process from "process";
-import * as fs from "fs";
-import * as path from "path";
+import { createReadStream } from "fs";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+import { stdout } from "process";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const read = async () => {
-  let tempPath = path.join(process.cwd(), "src", "streams", "files");
-  const streamReadable = fs.createReadStream(
-    path.join(tempPath, "fileToRead.txt"),
+  const streamReadable = createReadStream(
+    join(__dirname, "files", "fileToRead.txt"),
     "utf-8"
   );
-  streamReadable.on("data", (data) => {
-    process.stdout.write(data);
-  });
+  streamReadable.pipe(stdout);
 };
 
 await read();
