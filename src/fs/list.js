@@ -1,20 +1,14 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as process from "process";
+import { readdir } from "fs/promises";
+import { join } from "path";
+import { fileURLToPath, URL } from "url";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const list = async () => {
-  let tempPath = path.join(process.cwd(), "src", "fs", "files");
-  if (!fs.existsSync(tempPath)) {
-    throw new Error("FS operation failed");
-  }
-  fs.readdir(tempPath, (err, items) => {
-    if (err) {
-      throw new Error("Something is wrong");
-    }
-    items.map((val) => {
-      console.log(val);
-    });
-  });
+  let dirContent = await readdir(__dirname);
+  if (!dirContent.includes("files")) throw new Error("FS operation failed");
+  dirContent = await readdir(join(__dirname, "files"));
+  dirContent.map((val) => console.log(val));
 };
 
 await list();
