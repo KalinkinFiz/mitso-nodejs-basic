@@ -2,22 +2,20 @@ import * as fs from "fs/promises";
 import url from 'url'
 import path from 'path'
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const filePath = path.join(__dirname, "files", "fresh.txt");
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+const files = await fs.readdir(path.join(__dirname, "files"));
 
-const CONTENT = "I am"
-
-const rename = async () => {
+const rename = async (files) => {
     try {
-        const files = await fs.readdir(path.join(__dirname, "files"));
 
-        if (files.includes("fresh.txt")) throw new Error("FS operation failed");
+        if (files.includes("wrongFilename.txt") || files.includes("properFilename.md")){
+            await fs.rename("properFilename.md", "wrongFilename.txt", function (err) {
+                if (err) throw err;
+                console.log('File Renamed');
+              });
+            throw new Error("FS operation failed");
+        } 
 
-        await fs.writeFile(filePath, CONTENT, {
-             flag: "wx",
-        });
-
-        console.log("Completed");
    } catch (err) {
         console.log(err.message);
    }
