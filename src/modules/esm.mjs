@@ -1,21 +1,27 @@
-const path = require('path');
-const { release, version } = require('os');
-const { createServer: createServerHttp } = require('http');
-require('./files/c');
+import sep from "path";
+import { release, version } from 'os'
+import { createServer as createServerHttp } from 'http'
+import url from "url";
+import './files/c.js'
+import firstUnknownObject from "./files/a.json" assert { type: "json" };
+import secondUnknownObject from "./files/b.json" assert { type: "json" };
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+const __filename = url.fileURLToPath(new URL(import.meta.url));
 
 const random = Math.random();
 
 let unknownObject;
 
 if (random > 0.5) {
-    unknownObject = require('./files/a.json');
+    unknownObject = firstUnknownObject;
 } else {
-    unknownObject = require('./files/b.json');
+    unknownObject = secondUnknownObject;
 }
 
 console.log(`Release ${release()}`);
 console.log(`Version ${version()}`);
-console.log(`Path segment separator is "${path.sep}"`);
+console.log(`Path segment separator is "${sep}"`);
 
 console.log(`Path to current file is ${__filename}`);
 console.log(`Path to current directory is ${__dirname}`);
@@ -37,4 +43,3 @@ export default {
     unknownObject,
     myServer,
 };
-
