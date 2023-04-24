@@ -12,7 +12,7 @@ const create = async () => {
     await fs.access(filePath);
 
     // Если файл уже существует, выдаем ошибку
-    console.error('Error: file already exists');
+    console.error('FS operation failed)');
   } catch {
     // Если файл не существует, создаем его и записываем в него содержимое
     await fs.writeFile(filePath, fileContent);
