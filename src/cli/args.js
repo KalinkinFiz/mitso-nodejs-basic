@@ -1,4 +1,4 @@
-const parseArgs = () => {
+const args = () => {
     let firstArg = process.argv[0];
     let secondArg = process.argv[1];
 
