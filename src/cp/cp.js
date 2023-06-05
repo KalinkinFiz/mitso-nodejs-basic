@@ -1,6 +1,17 @@
-const spawnChildProcess = async (args) => {
-    // Write your code here
-};
+import { spawn } from 'child_process';
 
-// Put your arguments in function call to test this functionality
-spawnChildProcess( /* [someArgument1, someArgument2, ...] */);
+async function spawnChildProcess(args) {
+  const child = spawn('node', ['files/script.js', ...args], { stdio: ['pipe', 'pipe', 'inherit'] });
+
+  process.stdin.pipe(child.stdin);
+  child.stdout.pipe(process.stdout);
+
+  await new Promise(resolve => {
+    child.on('exit', resolve);
+  });
+
+  return;
+}
+
+export { spawnChildProcess };
+
